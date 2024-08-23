@@ -1,0 +1,25 @@
+services:
+  db:
+    container_name: mypostgres
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    networks:
+      - my_db_app
+    ports:
+      - "5432:5432"
+
+  app:
+    container_name: finalcertification2
+    build:
+      context: .
+    depends_on:
+      - db
+    networks:
+      - my_db_app
+networks:
+  my_db_app:
+    driver: bridge
